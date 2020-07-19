@@ -152,7 +152,7 @@ The request body should be empty for the DELETE request, as shown below:
     "body": "Movie with ID 1 deleted"
 }
 ```
-## Further steps
+## Next steps
 The API has been created with core CRUD operations. Some improvements that can be considered:
 
 + Upon a successfol POST operation, the response payload should include the data for the created row, including the id of the created entry.
