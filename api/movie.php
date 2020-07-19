@@ -48,8 +48,7 @@
 			
 			$sql = "DELETE FROM {$this->table} WHERE id='{$id}'";
 			$res = mysqli_query($this->conn, $sql);
-			echo $sql;
-			var_dump($res);
+
 			$response = array();
 			if ($res == TRUE){
 					$response["status_code"] = 200;
@@ -76,7 +75,6 @@
 			$sql_vals .= ");";
 			$sql = $sql_cols . $sql_vals;
 			
-			echo $sql;
 			$res = mysqli_query($this->conn, $sql);
 			$response = array();
 			if ($res == TRUE){
@@ -93,7 +91,7 @@
 			$query = array();
 			parse_str($_SERVER['QUERY_STRING'], $query);
 			$id = $query["id"];
-			echo $id;
+
 			$sql = "UPDATE {$this->table} \n SET ";
 			
 			foreach ($request as $key => $value){

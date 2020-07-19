@@ -1,8 +1,9 @@
 <?php
-	$request = json_decode(file_get_contents('php://input'), true);
-	#var_dump($request);
 	require("./api/movie.php");
+	
+	$request = json_decode(file_get_contents('php://input'), true);
 	$movie = new Movie;
+	
 	switch ($_SERVER["REQUEST_METHOD"]) {
 		case "POST":
 			$response = $movie->createMovie($request);

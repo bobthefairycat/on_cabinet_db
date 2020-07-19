@@ -10,13 +10,15 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-# populate the table
-# release date is not nullable, to distinguish from movies
-# that might have the same name
+# create the database, and switch to it
 $sql = "CREATE DATABASE IF NOT EXISTS {$db_name}";
 $conn->query($sql);
 $sql = "USE {$db_name}";
 $conn->query($sql);
+
+# populate the table
+# release date is not nullable, to distinguish from movies
+# that might have the same name
 
 $sql = "CREATE TABLE IF NOT EXISTS movie_inventory (
 id INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
