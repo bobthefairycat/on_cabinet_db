@@ -61,7 +61,7 @@ Request bodies should be json-formatted. No restrictions are placed on headers.
 http://127.0.0.1:8080/handler.php
 ```
 #### Request syntax
-For the POST request, all columns must be specfied **except the** ```id``` **column**.
+For the POST request, the ```title``` and ```date``` columns **must** be specified. The ```id``` **should not** be specified.
 
 For example, using movie data taken from https://www.imdb.com/title/tt4123430/:
 ```
