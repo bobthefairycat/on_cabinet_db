@@ -101,6 +101,7 @@
 			$sql = rtrim($sql,',');
 			$sql .= " WHERE id='{$id}';";
 
+
 			$res = mysqli_query($this->conn, $sql);
 			$response = array();
 			if ($res == TRUE){
