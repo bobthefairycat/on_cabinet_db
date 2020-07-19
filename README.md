@@ -78,8 +78,16 @@ For example, using movie data taken from https://www.imdb.com/title/tt4123430/:
 ### Sample Success Response
 ```
 {
-    "status_code": 201,
-    "body": "Movie created in database"
+    "id": "10",
+    "title": "Fantastic Beasts: The Crimes of Grindelwald",
+    "release_date": "2018-11-16",
+    "description": "The second installment of the Fantastic Beasts series featuring the adventures of Magizoologist Newt Scamander.",
+    "genre": " Adventure, Family, Fantasy",
+    "actors": "Eddie Redmayne, Katherine Waterston, Dan Fogler, Johnny Depp"
+    "message": {
+        "status_code": 201,
+        "body": "Movie created in database"
+    }
 }
 ```
 ### PUT
