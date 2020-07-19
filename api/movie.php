@@ -1,7 +1,7 @@
 <?php
 	class Movie {	
 		private $servername = 'localhost';
-		private $username = 'root';
+		private $username = 'me'; #created new user, root was locked by phpmyadmin
 		private $pwd = '';
 		
 		private $table = "movie_inventory";
@@ -16,13 +16,12 @@
 			}
 		}
 		
-		
 		public function getMovieById(){
 			if (isset($_GET["id"])) {
 				$sql = "SELECT * FROM {$this->table} WHERE id='{$_GET["id"]}'";
-				$res = mysqli_query($this->con, $sql);
+
+				$res = mysqli_query($this->conn, $sql);
 				$row = mysqli_fetch_array($res);
-				
 				$response = array();
 				if ($res->num_rows > 0) {
 					$response["id"] = $row["id"];
@@ -32,43 +31,43 @@
 					$response["genre"] = $row["genre"];
 					$response["actors"] = $row["actors"];
 					
-					$response["code"] = 200;
-					$reponse["msg"] = "Movie retrieved with ID {$_GET["id"]}";
+					$response["status_code"] = 200;
+					$response["body"] = "Movie retrieved with ID {$_GET["id"]}";
 				} else {
-					$response["code"] = 404;
-					$reponse["msg"] = "Movie with ID {$_GET["id"]} not found";
+					$response["status_code"] = 404;
+					$response["body"] = "Movie with ID {$_GET["id"]} not found";
 				}
-				$res->close();
 				return $response;
 			}
 		}
 		
 		public function deleteMovieById(){
 			$query = array();
-			parse_str($_SERVER['QUERY_STRING'], $queries);
-			$id = $query["id"]
+			parse_str($_SERVER['QUERY_STRING'], $query);
+			$id = $query["id"];
 			
-			$sql = "DELETE * FROM {$this->table} WHERE id='{$id"}'";
-			$res = mysqli_query($con, $sql);
-			
+			$sql = "DELETE FROM {$this->table} WHERE id='{$id}'";
+			$res = mysqli_query($this->conn, $sql);
+			echo $sql;
+			var_dump($res);
 			$response = array();
 			if ($res == TRUE){
-					$response["code"] = 200;
-					$reponse["msg"] = "Movie with ID {$id} deleted";
+					$response["status_code"] = 200;
+					$response["body"] = "Movie with ID {$id} deleted";
 			} else {
-				$response["code"] = 400;
-				$reponse["msg"] = "Movie with ID {$id} could not be deleted, the resource may not exist";
+				$response["status_code"] = 400;
+				$response["body"] = "Movie with ID {$id} could not be deleted, the resource may not exist";
 			}
 			return $response;
 		}
 		
-		public function createMovie(){
+		public function createMovie($request){
 			$sql_cols = "INSERT INTO {$this->table} (";
 			$sql_vals = "VALUES (";
 			
-			foreach ($_POST as $key => $value){
+			foreach ($request as $key => $value){
 				$sql_cols .= "{$key},";
-				$sql_vals .= "{$value},");
+				$sql_vals .= "'{$value}',";
 			}
 			
 			$sql_cols = rtrim($sql_cols, ',');
@@ -77,39 +76,41 @@
 			$sql_vals .= ");";
 			$sql = $sql_cols . $sql_vals;
 			
-			$res = mysqli_query($this->con, $sql);
+			echo $sql;
+			$res = mysqli_query($this->conn, $sql);
 			$response = array();
 			if ($res == TRUE){
-					$response["code"] = 200;
-					$reponse["msg"] = "Movie created with ID {$id}";
+					$response["status_code"] = 200;
+					$response["body"] = "Movie created in database";
 			} else {
-				$response["code"] = 400;
-				$reponse["msg"] = "Movie could not be creatd";
+				$response["status_code"] = 400;
+				$response["body"] = "Movie could not be created";
 			}
 			return $response;
 		}
 		
-		public function updateMovieById(){
+		public function updateMovieById($request){
 			$query = array();
-			parse_str($_SERVER['QUERY_STRING'], $queries);
-			$id = $query["id"]
-			$sql = "UPDATE {$this->table} \n SET"
+			parse_str($_SERVER['QUERY_STRING'], $query);
+			$id = $query["id"];
+			echo $id;
+			$sql = "UPDATE {$this->table} \n SET ";
 			
-			foreach ($_REQUEST as $key => $value){
-				$sql .= "{$key} = {$value},";
+			foreach ($request as $key => $value){
+				$sql .= "{$key}='{$value}',";
 			}
 			
-			$sql = rtrim($sql,',')
-			$sql .= " WHERE id='{$id"}';";
-			
-			$res = mysqli_query($this->con, $sql);
+			$sql = rtrim($sql,',');
+			$sql .= " WHERE id='{$id}';";
+
+			$res = mysqli_query($this->conn, $sql);
 			$response = array();
 			if ($res == TRUE){
-					$response["code"] = 200;
-					$reponse["msg"] = "Movie with ID {$id} successfully updated";
+					$response["status_code"] = 200;
+					$response["body"] = "Movie with ID {$id} successfully updated";
 			} else {
-				$response["code"] = 400;
-				$reponse["msg"] = "Movie with ID {$id} could not be updated, the resource may not exist";
+				$response["status_code"] = 400;
+				$response["body"] = "Movie with ID {$id} could not be updated, the resource may not exist";
 			}
 			return $response;
 		}
