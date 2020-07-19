@@ -110,8 +110,13 @@ To update the actors for a movie, for example, the following request body can be
 ### GET
 
 #### Request URL:
+##### Single entry
 ```
 http://127.0.0.1:8080/handler.php/?id={id}
+```
+##### All entries
+```
+http://127.0.0.1:8080/handler.php/
 ```
 #### Request syntax
 
