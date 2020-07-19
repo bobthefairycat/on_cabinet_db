@@ -45,7 +45,8 @@ to start the PHP Development Server.
 | release_date | DATE | specfied as YYYY-MM-DD |
 | description | VARCHAR(255) | - |
 | genre | VARCHAR(255) | - |
-| actors | VARCHAR(255) | - |
+| actors | VARCHAR(255) | - |  
+
 The character count restrictions on the field entries can be adjusted by modifying ```db_init.php```.
 
 ## Sending Requests 
