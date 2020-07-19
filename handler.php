@@ -9,7 +9,12 @@
 			$response = $movie->createMovie($request);
 			break;
 		case "GET":
-			$response = $movie->getMovieById();
+			if (isset($_GET["id"])){
+				$response = $movie->getMovieById();
+			} 
+			else {
+				$response = $movie->getAllMovies();
+			}
 			break;
 		case "PUT":
 			$response = $movie->updateMovieById($request);

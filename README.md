@@ -78,7 +78,7 @@ For example, using movie data taken from https://www.imdb.com/title/tt4123430/:
 ### Sample Success Response
 ```
 {
-    "status_code": 200,
+    "status_code": 201,
     "body": "Movie created in database"
 }
 ```
@@ -150,15 +150,12 @@ The request body should be empty for the DELETE request, as shown below:
 ### Sample Success Response
 ```
 {
-    "status_code": 200,
+    "status_code": 204,
     "body": "Movie with ID 1 deleted"
 }
 ```
 ## Next steps
 The API has been created with core CRUD operations. Some improvements that can be considered:
-
-+ Upon a successfol POST operation, the response payload should include the data for the created row, including the id of the created entry.
-+ An additional GET operation to retrieve all database rows could be beneficial. However, if the database is anticipated to be large in size, this operation is discouraged.
 + For the purposes of this assessment, chmod 777 was applied recursively to the entire directory. This would have to be restricted appropriately if hosted on a publicly accessible server.
 + User authentication for API requests would be encouraged.
 + The requirements surrounding the use of the actor information field were underspecified. Thus, the way this data is stored may need to be modified based on stakeholder needs.

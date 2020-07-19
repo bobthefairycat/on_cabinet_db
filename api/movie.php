@@ -17,30 +17,60 @@
 		}
 		
 		public function getMovieById(){
-			if (isset($_GET["id"])) {
-				$sql = "SELECT * FROM {$this->table} WHERE id='{$_GET["id"]}'";
+			$sql = "SELECT * FROM {$this->table} WHERE id='{$_GET["id"]}'";
 
-				$res = mysqli_query($this->conn, $sql);
-				$row = mysqli_fetch_array($res);
-				$response = array();
-				if ($res->num_rows > 0) {
-					$response["id"] = $row["id"];
-					$response["title"] = $row["title"];
-					$response["release_date"] = $row["release_date"];
-					$response["description"] = $row["description"];
-					$response["genre"] = $row["genre"];
-					$response["actors"] = $row["actors"];
-					
-					$response["status_code"] = 200;
-					$response["body"] = "Movie retrieved with ID {$_GET["id"]}";
-				} else {
-					$response["status_code"] = 404;
-					$response["body"] = "Movie with ID {$_GET["id"]} not found";
-				}
-				return $response;
+			$res = mysqli_query($this->conn, $sql);
+			$row = mysqli_fetch_array($res);
+			$response = array();
+			$message = array();
+			if ($res->num_rows > 0) {
+				$response["id"] = $row["id"];
+				$response["title"] = $row["title"];
+				$response["release_date"] = $row["release_date"];
+				$response["description"] = $row["description"];
+				$response["genre"] = $row["genre"];
+				$response["actors"] = $row["actors"];
+				
+				$message["status_code"] = 200;
+				$message["body"] = "Movie retrieved with ID {$_GET["id"]}";
+				$response["message"] = $message;
+			} else {
+				$response["status_code"] = 404;
+				$response["body"] = "Movie with ID {$_GET["id"]} not found";
 			}
+			return $response;
 		}
+		public function getAllMovies(){
+			$sql = "SELECT * FROM {$this->table}";
+
+			$res = mysqli_query($this->conn, $sql);
+			$rows = mysqli_fetch_all($res, MYSQLI_ASSOC);
+			
+			$response = array();
+			$subarray = array();
+			$count = 0;
+			
+			foreach ($rows as $row){
+				$subarray = array();
+				$subarray["id"] = $row["id"];
+				$subarray["title"] = $row["title"];
+				$subarray["release_date"] = $row["release_date"];
+				$subarray["description"] = $row["description"];
+				$subarray["genre"] = $row["genre"];
+				$subarray["actors"] = $row["actors"];
+				
+				$response[] = $subarray;
+				$count += 1;
+			}
+			$subarray = array();
+			$subarray["status_code"] = 200;
+			$subarray["body"] = "All movies retrieved, total {$count} entries";
+			
+			$response["message"] = $subarray;
+			
+			return $response;
 		
+		}		
 		public function deleteMovieById(){
 			$query = array();
 			parse_str($_SERVER['QUERY_STRING'], $query);
@@ -51,7 +81,7 @@
 
 			$response = array();
 			if ($res == TRUE){
-					$response["status_code"] = 200;
+					$response["status_code"] = 204;
 					$response["body"] = "Movie with ID {$id} deleted";
 			} else {
 				$response["status_code"] = 400;
@@ -76,14 +106,23 @@
 			$sql = $sql_cols . $sql_vals;
 			
 			$res = mysqli_query($this->conn, $sql);
-			$response = array();
+			
+			$message = array();
+			
 			if ($res == TRUE){
-					$response["status_code"] = 200;
-					$response["body"] = "Movie created in database";
+					$movie_id = mysqli_insert_id($this->conn);
+					$_GET["id"] = $movie_id;
+					$response = $this->getMovieById();
+					
+					$message["status_code"] = 201;
+					$message["body"] = "Movie created in database";	
+					
+					$response["message"] = $message;
 			} else {
 				$response["status_code"] = 400;
 				$response["body"] = "Movie could not be created";
 			}
+			
 			return $response;
 		}
 		
