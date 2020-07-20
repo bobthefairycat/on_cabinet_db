@@ -17,7 +17,7 @@ phpMyAdmin was also installed, accessed at
 http://localhost/phpmyadmin/
 ```
 
-The directory ```on_cabinet_db lives``` inside the ```/var/www/html/``` directory.  
+The directory ```on_cabinet_db``` lives inside the ```/var/www/html/``` directory.  
 The database was initialized by running the following (Note: the absolute path may vary):
 
 ```
@@ -92,11 +92,11 @@ For example, using movie data taken from https://www.imdb.com/title/tt4123430/:
 ```
 ### PUT
 
-#### Request URL:
+#### Request URL
 ```
 http://127.0.0.1:8080/handler.php/?id={id}
 ```
-The query component must include an id parameter, representing the ```id``` column to query.
+The query component must include an id parameter, representing the row to retrieve by referencing the ```id```  column.
 
 #### Request syntax
 The request can specify any column to modify, except the ```id```.
@@ -117,7 +117,8 @@ To update the actors for a movie, for example, the following request body can be
 ```
 ### GET
 
-#### Request URL:
+#### Request URL
+
 ##### Single entry
 ```
 http://127.0.0.1:8080/handler.php/?id={id}
@@ -148,7 +149,8 @@ The request body should be empty for the GET request, as shown below:
 ```
 
 ### DELETE
-#### Request URL:
+
+#### Request URL
 ```
 http://127.0.0.1:8080/handler.php/?id={id}
 ```
